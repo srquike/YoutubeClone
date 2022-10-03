@@ -6,18 +6,40 @@ import estilos from "./estilos";
 type VideoListItemProps = {
     video: {
         id: string;
-        createdAt: string;
-        title: string;
-        thumbnail: string;
-        videoUrl: string;
-        duration: number;
-        views: number;
-        user: {
-            name: string;
-            image: string;
+        snippet: {
+            publishedAt: string;
+            channelId: string;
+            title: string;
+            thumbnails: {
+                default: {
+                    url: string;
+                }
+            }
+        };
+        player: {
+            embedHtml: string;
+        };
+        contentDetails: {
+            duration: string;
+        };
+        statistics: {
+            viewCount: string;
+        };
+    }
+};
+
+type CanalProps = {
+    canal: {
+        snippet: {
+            title: string;
+            thumbnails: {
+                default: {
+                    url: string;
+                }
+            }
         }
     }
-}
+};
 
 const VideoListItem = (props: VideoListItemProps) => {
     const { video } = props;
@@ -26,19 +48,19 @@ const VideoListItem = (props: VideoListItemProps) => {
         <View style={estilos.tarjetaVideo}>
             {/* imagen miniatura */}
             <View>
-                <Image style={estilos.miniatura} source={{ uri: video.thumbnail }}></Image>
+                <Image style={estilos.miniatura} source={{ uri: video.snippet.thumbnails.default.url }}></Image>
                 <View style={estilos.contenedorDuracion}>
-                    <Text style={estilos.duracion}>{video.duration}</Text>
+                    <Text style={estilos.duracion}>{video.contentDetails.duration}</Text>
                 </View>
             </View>
             {/* titulo del video */}
             <View style={estilos.filaTitulo}>
                 {/* Foto */}
-                <Image style={estilos.foto} source={{ uri: video.user.image }}></Image>
+                <Image style={estilos.foto} source={{}}></Image>
                 {/* Contenedor medio: titulo, subtitulo, etc. */}
                 <View style={estilos.contenedorMedio}>
-                    <Text style={estilos.titulo}>{video.title}</Text>
-                    <Text style={estilos.subtitulo}>{video.user.name} • {video.views} visitas • {video.createdAt}</Text>
+                    <Text style={estilos.titulo}>{video.snippet.title}</Text>
+                    <Text style={estilos.subtitulo}>{`• ${video.statistics.viewCount} visitas • ${video.snippet.publishedAt}`}</Text>
                 </View>
                 {/* Icono */}
                 <Entypo name="dots-three-vertical" size={18} color="black"></Entypo>
